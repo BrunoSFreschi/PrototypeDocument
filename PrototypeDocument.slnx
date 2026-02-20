@@ -1,3 +1,6 @@
 <Solution>
+  <Project Path="PrototypeDocument.Application/PrototypeDocument.Application.csproj" />
+  <Project Path="PrototypeDocument.Domain/PrototypeDocument.Domain.csproj" />
+  <Project Path="PrototypeDocument.Infrastructure/PrototypeDocument.Infrastructure.csproj" />
   <Project Path="PrototypeDocument/PrototypeDocument.csproj" />
 </Solution>
