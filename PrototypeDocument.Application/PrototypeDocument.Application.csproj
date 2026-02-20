@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PrototypeDocument.Domain\PrototypeDocument.Domain.csproj" />
+    <ProjectReference Include="..\PrototypeDocument\PrototypeDocument.csproj" />
+  </ItemGroup>
+
 </Project>
