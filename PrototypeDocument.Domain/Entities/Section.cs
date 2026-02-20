@@ -1,6 +1,4 @@
-﻿using System.Security.Principal;
-
-namespace PrototypeDocument.Domain.Entities;
+﻿namespace PrototypeDocument.Domain.Entities;
 
 public class Section
 {
