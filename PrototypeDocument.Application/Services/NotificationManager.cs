@@ -1,26 +1,27 @@
 ﻿using PrototypeDocument.Domain.Abstractions;
+using PrototypeDocument.Domain.Enums;
 using PrototypeDocument.Domain.Models;
 
 namespace PrototypeDocument.Application.Services;
 
 public class NotificationManager
 {
-    private readonly Dictionary<string, INotificationChannel> _channels;
+    private readonly Dictionary<NotificationType, INotificationChannel> _channels;
 
     public NotificationManager(IEnumerable<INotificationChannel> channels)
     {
-        _channels = channels.ToDictionary(c => c.ChannelType, c => c);
+        _channels = channels.ToDictionary(c => c.Type, c => c);
     }
 
-    private INotificationChannel Resolve(string type)
+    private INotificationChannel Resolve(NotificationType type)
     {
-        if (!_channels.TryGetValue(type.ToLower(), out var channel))
-            throw new ArgumentException($"Canal '{type}' não suportado");
+        if (!_channels.TryGetValue(type, out var channel))
+            throw new InvalidOperationException($"Canal {type} não registrado");
 
         return channel;
     }
 
-    public void SendOrderConfirmation(string recipient, string orderNumber, string notificationType)
+    public void SendOrderConfirmation(string recipient, string orderNumber, NotificationType type)
     {
         var message = new NotificationMessage
         {
@@ -29,10 +30,10 @@ public class NotificationManager
             Body = $"Seu pedido {orderNumber} foi confirmado!"
         };
 
-        Resolve(notificationType).Send(message);
+        Resolve(type).Send(message);
     }
 
-    public void SendShippingUpdate(string recipient, string trackingCode, string notificationType)
+    public void SendShippingUpdate(string recipient, string trackingCode, NotificationType type)
     {
         var message = new NotificationMessage
         {
@@ -41,18 +42,6 @@ public class NotificationManager
             Body = $"Rastreamento: {trackingCode}"
         };
 
-        Resolve(notificationType).Send(message);
-    }
-
-    public void SendPaymentReminder(string recipient, decimal amount, string notificationType)
-    {
-        var message = new NotificationMessage
-        {
-            Recipient = recipient,
-            Title = "Lembrete de Pagamento",
-            Body = $"Pagamento pendente: R$ {amount:N2}"
-        };
-
-        Resolve(notificationType).Send(message);
+        Resolve(type).Send(message);
     }
 }
