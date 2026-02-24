@@ -2,9 +2,7 @@
 using PrototypeDocument.Domain.Enums;
 using PrototypeDocument.Domain.Models;
 
-namespace PrototypeDocument.Application.Services;
-
-public class NotificationManager
+internal class NotificationManager
 {
     private readonly Dictionary<NotificationType, INotificationChannel> _channels;
 
